@@ -5,13 +5,45 @@ A boolean algebra/logic gate simulator written in python using pygame. Written b
 
 ## Installation
 
-1. Install Python 3.X (3.4 for py2exe building).
+### Windows Binary
+
+1. [Download the binary](https://github.com/qqii/logic-gate-simulator/releases).
+2. Extract into a folder with [7zip](http://www.7-zip.org/download.html).
+3. Run logic_gates.exe.
+
+### From Source
+
+1. Install Python 3.x (3.4 for py2exe building).
 2. `pip install pygame (py2exe)` (py2exe is optional and windows only).
 3. `python logic_gates.py`
 
 ## Usage
 
-TODO: include my terrible user manual? 
+The program has 3 "tabs" which can be navigated using the button on the top right: "Boolean Algebra", "Circuit Simulation" and "Help". Depending on which tab you are in, the bottom right buttons will do different things. 
+
+### Circuit Simulation
+
+Click the buttons to spawn more components. Components, wires can be dragged by clicking on them. You can move everything by dragging on the background.  
+
+Components and wires can be:
+* dragged using the left mouse button
+* duplicated using the middle mouse button
+* deleted using the right mouse button
+
+Connect compoents by dragging from output circle of a component. This create a wire you can attach to the input of another component.
+
+Clicking "Convert to Expression" will attempt to create an expression starting at a lamp.
+
+### Boolean Algebra
+
+Click the terrible text box on the bottom left to enter a boolean expression. 
+Click "Convert to Expression" to parse the expression and create a table. 
+
+The table can be zoomed using the scroll wheel and dragged around.
+
+The simplify button will attempt to simplify your boolean expression.
+
+Clicking "Convert to Circuit" will create a logic circuit from your expression.
 
 ## Contributing
 
