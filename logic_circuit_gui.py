@@ -34,7 +34,7 @@ def load_surfaces(path="images"):
     """
     def load_file_to_surface(file_name):
         """
-        Takes a filename and returns the surface of the file. 
+        Takes a filename and returns the surface of the file.
 
         This raises a FileNotFoundError if the file could not be opened.
         """
@@ -68,9 +68,8 @@ def load_surfaces(path="images"):
 
     # 0.825/30.939 is the ratio of the height of the and surface to the radius
     # of the circle
-    SELECT_RADIUS = int(
-        4 * SURFACE["and"].get_rect().h * 0.0266654)  # 0.825/30.939
-
+    SELECT_RADIUS = int(4 * SURFACE["and"].get_rect().h * 0.0266654 )  # 0.825/30.939
+    print(SELECT_RADIUS)
 
 class IRenderableComponent(interfaces.IDraggable):
 
@@ -426,6 +425,7 @@ class Bulb(InputOutputCommon):
                               COLOR_DICT[self.component.output])
 
 
+
 class Wire(IRenderableComponent):
 
     """
@@ -607,6 +607,7 @@ class Wire(IRenderableComponent):
                 o.component.inputs[key] = None
         self.dragging = True
 
+
     # For comparability
     def update_surface(self):
         self.surface.fill(COLOR_DICT["other"])
@@ -637,7 +638,7 @@ class Wire(IRenderableComponent):
                       self.output)
             steps = 10
             pygame.gfxdraw.bezier(
-                self.surface, points, steps, COLOR_DICT[self.component.output])
+                 self.surface, points, steps, COLOR_DICT[self.component.output])
 
             pygame.draw.circle(self.surface,
                                COLOR_DICT[self.component.output],
@@ -689,7 +690,7 @@ class CircuitBoard(interfaces.IContainer):
     """
     A renderable circuit board that contains components.
 
-    This creates the buttons that spawns the gates and ensures that wires are rendered on top 
+    This creates the buttons that spawns the gates and ensures that wires are rendered on top
     and updated first
     """
     GATE_CLASSES = (Switch, Bulb,
@@ -768,7 +769,7 @@ class CircuitBoard(interfaces.IContainer):
                 surface_blit(r.render_surface(), r.top_left)
 
         outline = pygame.rect.Rect(0, 0, self.hitbox.w, self.hitbox.h)
-        pygame.gfxdraw.rectangle(self.surface, outline, COLOR_DICT[None])
+        #pygame.gfxdraw.rectangle(self.surface, outline, COLOR_DICT[None])  AUSKOMMENTIERT VON HENNING
 
     def update(self, others, keys, events):
         def logic_board(renderable_list):

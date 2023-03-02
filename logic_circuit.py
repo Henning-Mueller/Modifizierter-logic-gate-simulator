@@ -106,7 +106,7 @@ class Gate(Component):
                 if isinstance(e, str):
                     return boolean.Symbol(e)
                 elif isinstance(e, boolean.Symbol):
-                    return e
+                    return
                 else:
                     raise TypeError("Argument must be of type str of Symbol but is type {}"
                                     .format(e.__class__))
@@ -336,6 +336,7 @@ class CircuitBoard(list):
             Other Components
             Outputs
         """
+
         def sort_key(component):
             if isinstance(component, Input):
                 return 0
@@ -347,7 +348,9 @@ class CircuitBoard(list):
                 return 4
             return 3
         for c in sorted(self, key=sort_key):
+
             c.update()
+
 
     def remove(self, value):
         super().remove(value)

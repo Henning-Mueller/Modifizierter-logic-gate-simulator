@@ -9,7 +9,8 @@ import pickle
 import threading
 import itertools
 import collections
-
+from xml.dom import minidom
+import os
 import tkinter
 import tkinter.filedialog
 import tkinter.simpledialog
@@ -22,7 +23,7 @@ import pygame.freetype
 
 import boolean
 import logic_circuit
-
+import uuid
 import alignment
 import interfaces
 import text
@@ -42,15 +43,23 @@ NATIVE_RESOLUTION = (pygame.display.Info().current_w,
 # Ensure that the initial window is not too large so that it doesn't fix
 # on the screen
 RESOLUTION = (int(NATIVE_RESOLUTION[0] * 3 / 4),
-              int(NATIVE_RESOLUTION[1] * 3 / 4))
+             int(NATIVE_RESOLUTION[1] * 3 / 4))
 
 FLAGS = pygame.RESIZABLE  # pygame.DOUBLEBUF|pygame.HWACCEL|pygame.HWSURFACE
 
+
+"""
+Modifizierter Code
+"""
 WHITE = pygame.color.Color(255, 255, 255, 255)
 BLACK = pygame.color.Color(0, 0, 0, 255)
-BLUE = pygame.color.Color(0, 0, 255, 255)
-LIGHT_BLUE = pygame.color.Color(0, 255, 255, 255)
+BLUE = pygame.color.Color(0, 0, 0, 255)
+LIGHT_BLUE = pygame.color.Color(0, 0, 0, 255)
+RED = pygame.color.Color(255, 0, 0, 255)
 
+"""
+Ende Modifizierter Code
+"""
 # 0 for uncapped fps
 FPS = 0
 
@@ -285,6 +294,9 @@ class BooleanAlgebraContainer(interfaces.IContainer):
                     index = events.index(event)
                     events[index] = interfaces.normal_event(event)
         super().mouse_down(others, keys, event, events)
+
+
+
 
     # This allows the user to drag the truth table around
     def mouse_motion(self, others, keys, event, events):
@@ -521,6 +533,7 @@ def func_load(self, others, keys, events):
         # then this is not needed
         # This also depends on fixing picking boolean.py objects
         for g in gates:
+
             g.align((0, 0, circuit_simulation.w, circuit_simulation.h),
                     alignment.middle_middle)
 
@@ -755,13 +768,111 @@ _ = (0,
      BUTTON_SIZE[2])
 input_expression = ExpressionBox("Enter a boolean expression...",
                                  _,
-                                 font_size=FONT_SIZE)
+                                font_size=FONT_SIZE)
 
 # All objects that are rendered and and updated
-objects = [button_clear, button_save, button_load,
-           button_help, button_circuit, button_boolean,
-           button_to_expr, button_to_circuit, input_expression,
-           circuit_simulation, boolean_algebra, help_section]
+objects = [circuit_simulation]
+
+    #[button_clear, button_save, button_load,
+    #       button_help, button_circuit, button_boolean,
+    #       button_to_expr, button_to_circuit, input_expression,
+    #       circuit_simulation, boolean_algebra, help_section]
+
+"""
+Modifizierter Code
+"""
+def GenerateXML(foldername, filename, widthtext, heighttext, depthtext, objs):
+    pathname = os.getcwd() + "\\" + os.path.join('images',  'mixed',
+                                                 filename + '.jpg')
+    root = minidom.Document()
+    xml = root.createElement('annotation')
+    root.appendChild(xml)
+    productChild = root.createElement('folder')
+    text = root.createTextNode(foldername)
+    productChild.appendChild(text)
+    xml.appendChild(productChild)
+    productChild = root.createElement('filename')
+    text = root.createTextNode(filename + '.jpg')
+    productChild.appendChild(text)
+    xml.appendChild(productChild)
+    productChild = root.createElement('path')
+    text = root.createTextNode(pathname)
+    productChild.appendChild(text)
+    xml.appendChild(productChild)
+    productChild = root.createElement('source')
+    productChild1 = root.createElement('database')
+    text = root.createTextNode("Unknown")
+    productChild.appendChild(productChild1)
+    productChild1.appendChild(text)
+    xml.appendChild(productChild)
+    productChild = root.createElement('size')
+    productChild1 = root.createElement('width')
+    text = root.createTextNode(str(widthtext))
+    productChild.appendChild(productChild1)
+    productChild1.appendChild(text)
+    productChild1 = root.createElement('height')
+    text = root.createTextNode(str(heighttext))
+    productChild.appendChild(productChild1)
+    productChild1.appendChild(text)
+    productChild1 = root.createElement('depth')
+    text = root.createTextNode(str(depthtext))
+    productChild.appendChild(productChild1)
+    productChild1.appendChild(text)
+    xml.appendChild(productChild)
+    productChild = root.createElement('segmented')
+    text = root.createTextNode("0")
+    productChild.appendChild(text)
+    xml.appendChild(productChild)
+    for obj in objs:
+        if not type(obj) ==logic_circuit_gui.SpawnGate and not type(obj) ==logic_circuit_gui.Wire:
+            productChild = root.createElement('object')
+            productChild1 = root.createElement('name')
+            if type(obj) ==logic_circuit_gui.Switch:
+                text = root.createTextNode(str(obj.surface_key[None])+ "_" + str(obj.component.output))
+            else:
+                text = root.createTextNode(str(obj.surface_key[None]))
+            productChild.appendChild(productChild1)
+            productChild1.appendChild(text)
+            productChild1 = root.createElement('pose')
+            text = root.createTextNode("Unspecified")
+            productChild.appendChild(productChild1)
+            productChild1.appendChild(text)
+            productChild1 = root.createElement('truncated')
+            text = root.createTextNode("0")
+            productChild.appendChild(productChild1)
+            productChild1.appendChild(text)
+            productChild1 = root.createElement('difficult')
+            text = root.createTextNode("0")
+            productChild.appendChild(productChild1)
+            productChild1.appendChild(text)
+            xml.appendChild(productChild)
+            productChild1 = root.createElement('bndbox')
+            productChild.appendChild(productChild1)
+            productChild2 = root.createElement('xmin')
+            text = root.createTextNode(str(obj.hitbox.x))
+            productChild1.appendChild(productChild2)
+            productChild2.appendChild(text)
+            productChild2 = root.createElement('ymin')
+            text = root.createTextNode(str(obj.hitbox.y))
+            productChild1.appendChild(productChild2)
+            productChild2.appendChild(text)
+            productChild2 = root.createElement('xmax')
+            text = root.createTextNode(str(obj.hitbox.right))
+            productChild1.appendChild(productChild2)
+            productChild2.appendChild(text)
+            productChild2 = root.createElement('ymax')
+            text = root.createTextNode(str(obj.hitbox.bottom))
+            productChild1.appendChild(productChild2)
+            productChild2.appendChild(text)
+            xml.appendChild(productChild)
+
+    xml_str = root.childNodes[0].toprettyxml(indent="\t")
+
+    with open(os.path.join('images',  'mixed', filename + ".xml"),
+              "w") as f:
+        f.write(xml_str)
+
+
 
 running = True
 while running:
@@ -770,6 +881,50 @@ while running:
     events = interfaces.new_events(pygame.fastevent.get())
 
     for e in events:
+
+        """
+        Modifizierter Code
+        """
+        if e.type == pygame.TEXTINPUT:
+            if e.text == 'a':
+                jpgname = uuid.uuid4()
+                #GenerateXML("Mixed", str(jpgname),RESOLUTION[0],RESOLUTION[1],3,circuit_simulation.renderable_list)
+
+                #pygame.image.save(surface, "images/mixed/" + str(jpgname) + ".jpg")
+                if not os.path.exists("../BachelorAbgabe/images/" + str(jpgname)):
+                     #TODO Check linux
+                    if os.name == 'posix':
+                        os.mkdir("../BachelorAbgabe/images/" + str(jpgname))
+                    if os.name == 'nt':
+                        os.mkdir("../BachelorAbgabe/images/" + str(jpgname))
+                pygame.image.save(surface, "../BachelorAbgabe/images/" + str(jpgname) +  "/" + str(jpgname) +".jpg")
+                print(circuit_simulation.renderable_list)
+                print(jpgname)
+
+        if e.type == pygame.TEXTINPUT:
+            if e.text == 'h':
+                # if not logic_circuit_gui.SELECT_RADIUS == 0:
+                #     logic_circuit_gui.SELECT_RADIUS = 0
+                # else:
+                #     logic_circuit_gui.SELECT_RADIUS = 7
+                for g in circuit_simulation.renderable_list:
+                    if type(g) == logic_circuit_gui.SpawnGate:
+                        #print("!!!!!")
+                        #print(g)
+                        g.hidden = not g.hidden
+        if e.type == pygame.TEXTINPUT:
+            if e.text == 'c':
+                print(circuit_simulation.renderable_list)
+
+        """
+        Ende Modifizierter Code
+        """
+
+
+
+
+
+
         if e.type == pygame.QUIT:
             running = False
         elif e.type in (pygame.KEYDOWN, interfaces.KEYDOWN_NEW):
