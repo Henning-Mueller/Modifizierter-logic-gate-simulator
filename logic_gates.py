@@ -888,16 +888,16 @@ while running:
         if e.type == pygame.TEXTINPUT:
             if e.text == 'a':
                 jpgname = uuid.uuid4()
-                #GenerateXML("Mixed", str(jpgname),RESOLUTION[0],RESOLUTION[1],3,circuit_simulation.renderable_list)
+                GenerateXML("Mixed", str(jpgname),RESOLUTION[0],RESOLUTION[1],3,circuit_simulation.renderable_list)
 
-                #pygame.image.save(surface, "images/mixed/" + str(jpgname) + ".jpg")
-                if not os.path.exists("../BachelorAbgabe/images/" + str(jpgname)):
-                     #TODO Check linux
-                    if os.name == 'posix':
-                        os.mkdir("../BachelorAbgabe/images/" + str(jpgname))
-                    if os.name == 'nt':
-                        os.mkdir("../BachelorAbgabe/images/" + str(jpgname))
-                pygame.image.save(surface, "../BachelorAbgabe/images/" + str(jpgname) +  "/" + str(jpgname) +".jpg")
+                pygame.image.save(surface, "images/mixed/" + str(jpgname) + ".jpg")
+                # if not os.path.exists("../BachelorAbgabe/images/" + str(jpgname)):
+                #
+                #     if os.name == 'posix':
+                #         os.mkdir("../BachelorAbgabe/images/" + str(jpgname))
+                #     if os.name == 'nt':
+                #         os.mkdir("../BachelorAbgabe/images/" + str(jpgname))
+                # pygame.image.save(surface, "../BachelorAbgabe/images/" + str(jpgname) +  "/" + str(jpgname) +".jpg")
                 print(circuit_simulation.renderable_list)
                 print(jpgname)
 
