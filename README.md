@@ -1,3 +1,20 @@
+# <h1>Modifizierter Logic Gate Simulator</h1>
+
+Diese ist der modifizierte Logic Gate Simulator der für die Generierung der Trainingsdaten verwendet wurde.<br/>
+Es wurden einige Änderungen durchgeführt.<br/>
+Orginal Readme.md vom Ersteller folgt.<br/>
+Orginal Github: https://github.com/qqii/logic-gate-simulator <br/>
+
+
+
+
+
+
+
+
+
+
+
 # Logic Gate Simulator
 An old A Level computing coursework written in python.
 
